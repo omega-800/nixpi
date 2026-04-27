@@ -41,9 +41,7 @@
     "nix-command"
     "flakes"
   ];
-  image = {
-    compressImage = false;
-    fileName = "nixpi.img";
-  };
+  sdImage.compressImage = false;
+  image.fileName = "nixpi.img";
   system.stateVersion = "25.11";
 }
