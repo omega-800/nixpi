@@ -5,12 +5,22 @@
   ...
 }:
 {
-  imports = [ (modulesPath + "/installer/sd-card/sd-image-aarch64.nix") ];
-  networking.hostName = "nixpi";
-  users.users."nixpi" = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    initialPassword = "changeme";
+  imports = [
+    (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
+    # (modulesPath + "/installer/sd-card/sd-image-raspberrypi.nix")
+    # (modulesPath + "/installer/sd-card/sd-image-raspberrypi-installer.nix")
+  ];
+  networking = {
+    hostName = "nixpi";
+    networkmanager.enable = true;
+  };
+  users.users = {
+    nixpi = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ];
+      initialHashedPassword = "";
+    };
+    root.initialHashedPassword = "";
   };
   services = {
     openssh = {
@@ -42,6 +52,5 @@
     "flakes"
   ];
   sdImage.compressImage = false;
-  image.fileName = "nixpi.img";
   system.stateVersion = "25.11";
 }

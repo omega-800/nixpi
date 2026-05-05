@@ -4,7 +4,10 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs =
-    { nixpkgs, self }:
+    {
+      nixpkgs,
+      self,
+    }@inputs:
     let
       systems = nixpkgs.lib.platforms.unix;
       eachSystem =
@@ -23,6 +26,7 @@
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
+        specialArgs = inputs;
         modules = [ ./configuration.nix ];
       };
 
@@ -31,6 +35,8 @@
           packages = with pkgs; [
             wget
             zstd
+            dnsmasq
+            tcpdump
           ];
         };
       });
